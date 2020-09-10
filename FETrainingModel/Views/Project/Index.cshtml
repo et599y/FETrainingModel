@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "首頁";
+}
+<style>
+    .axis .domain {
+        display: none;
+    }
+
+    body {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+        color: #333;
+    }
+    #chart_donut1, #chart_donut2 {
+        font-size: 12pt;
+    }
+
+    #chart_donut2 {
+        /*margin-left: 15px;*/
+    }
+
+    .donut_row {
+        width: 20%;
+        height: 200px;
+        float: left;
+    }
+
+    .donut_col {
+        margin-bottom: 60px;
+        /*margin: 30px 0 30px 0;*/
+        height: 200px;
+    }
+</style>
+
+<div class="container-fluid">
+    <br />
+    <div class="row" style="display:flex;">
+        <div class="" id="bar" style="width:80%">
+            <div class="white-box" id="stackedbar">
+                <h3 class="box-title" style="color: midnightblue;">各廠區專案數量</h3>
+                <div id="stackedBar"></div>
+            </div>
+        </div>
+        <div id="chart_donut1" class="white-box" style="width:20%; margin-left:10px">
+            <h3 class="box-title" style="color: midnightblue;">各廠區詳細專案資訊</h3>
+            <div id="chartdiv1" class="donut_col"></div>
+            <div id="chartdiv2" class="donut_col"></div>
+        </div>
+    </div>
+
+    <div id="chart_donut2">
+        <div class="row white-box row-cols-12">
+            <h3 class="box-title" style="color: midnightblue;">各廠區詳細專案資訊</h3>
+            <div class="donut_row" id="chartdiv3"></div>
+            <div class="donut_row" id="chartdiv4"></div>
+            <div class="donut_row" id="chartdiv5"></div>
+            <div class="donut_row" id="chartdiv6"></div> 
+            <div class="donut_row" id="chartdiv7"></div>
+        </div>
+    </div>
+
+</div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="~/Scripts/stackedbar_chart.js"></script>
+<!-- Resources -->
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/frozen.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="~/Scripts/donut.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        update2(@Html.Raw(ViewBag.json))
+        donut(@Html.Raw(ViewBag.site))
+    });
+</script>

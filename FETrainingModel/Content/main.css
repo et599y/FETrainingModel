@@ -1,0 +1,74 @@
+.table_head{
+    color: white;
+    font-weight:bolder;
+}
+
+/*new*/
+.validation-summary-errors ul {
+    color: red;
+    list-style: none;
+    padding-right: 40px;
+}
+
+nav[role="navigation"] {
+    text-align: center;
+}
+
+.cd-pagination {
+    width: 90%;
+    max-width: 768px;
+    margin: 2em auto 4em;
+    text-align: center;
+}
+
+    .cd-pagination li {
+        /* hide numbers on small devices */
+        display: none;
+        margin: 0 .2em;
+    }
+
+        .cd-pagination li.button {
+            /* make sure prev next buttons are visible */
+            display: inline-block;
+        }
+
+    .cd-pagination a,
+    .cd-pagination span {
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding-bottom: -1px;
+        /* use padding and font-size to change buttons size */
+        /*background-color: #F8F8F8;*/
+    }
+
+
+    .cd-pagination a {
+        color: white;
+        background-color: #007bff;
+    }
+
+        .cd-pagination a:hover {
+            color: white;
+            background-color: #007bff;
+        }
+
+        .cd-pagination a.disabled {
+            /* button disabled */
+            pointer-events: none;
+            background-color: #007bff;
+        }
+/*.cd-pagination a.disabled::before,
+                .cd-pagination a.disabled::after {
+                    opacity: .1;
+                }*/
+
+nav[role="navigation"] .cd-pagination {
+    padding-right: 40px;
+}
+
+#ProjectID input:focus {
+    outline: none;
+}

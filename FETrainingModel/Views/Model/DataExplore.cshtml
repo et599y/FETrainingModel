@@ -1,0 +1,200 @@
+﻿@model FETrainingModel.Models.DataPreprocess
+@{
+    ViewBag.Title = "探索性資料分析";
+}
+<script src="https://d3js.org/d3.v4.js"></script>
+<!-- Color Scale -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<style>
+    #correlogram {
+        font: 12px sans-serif;
+        text-anchor: middle;
+    }
+
+    .domain,
+    tick line {
+        stroke: gray;
+        stroke: width;
+    }
+
+    .y.axis path {
+        fill: none;
+        stroke: none;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h2>探索性資料分析</h2>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-sm-6 col-xs-12">
+            <div class="white-box analytics-info">
+                <h3 class="box-title" style="color: midnightblue;">原資料筆數</h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right">
+                        <span class="counter text-info"
+                              style="color: mediumpurple;">
+                            @Model.col1
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-6 col-xs-12">
+            <div class="white-box analytics-info">
+                <h3 class="box-title" style="color: midnightblue;">處理後筆數</h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right">
+                        <span class="counter text-info"
+                              style="color: rgb(107, 182, 177);">@Model.col2</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-xs-12">
+                <div class="white-box analytics-info">
+                    <h3 class="box-title" style="color: midnightblue;">刪除欄位數</h3>
+                    <ul class="list-inline two-part">
+                        <li class="text-right">
+                            <span class="counter text-info" style="color: royalblue;">
+                                @Model.col3
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-xs-12">
+                <div class="white-box analytics-info">
+                    <h3 class="box-title" style="color: midnightblue;">刪除總筆數</h3>
+                    <ul class="list-inline two-part">
+                        <li class="text-right">
+                            <span class="counter text-info"
+                                  style="color: slateblue;">@Model.col4</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-6 col-xs-12">
+                    <div class="white-box analytics-info">
+                        <h3 class="box-title" style="color: midnightblue;">補值總筆數</h3>
+                        <ul class="list-inline two-part">
+                            <li class="text-right">
+                                <span class="counter text-info"
+                                      style="color: rgb(100, 206, 104);">@Model.col5</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-xs-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title" style="color: midnightblue;">欄位數目</h3>
+                            <ul class="list-inline two-part">
+                                <li class="text-right"><span class="counter text-info">@Model.col6</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <!-- Create a div where the graph will take place -->
+                            <h3 class="box-title" style="color: midnightblue;">欄位折線圖</h3>
+                            <label style="color: rgb(71, 82, 92);">請選擇欄位 : </Select></label>&nbsp;<select id="selectButton"></select>
+                            <!-- <select name="type" class="size:5" id="selectButton" name="type"
+                                style="margin-right:10px; border-radius: 4px;height:37px">
+                            </select> -->
+                            <div id="my_dataviz"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">
+                        <div class="white-box" style="height:700px;">
+                            <h3 class="box-title" style="color: midnightblue;">Data Info</h3>
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="row">重覆值</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> 1272 </td>
+                                        <th>筆</th>
+                                    </tr>
+                                </tbody>
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="row">缺失值</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> 0 </td>
+                                        <th>筆</th>
+                                    </tr>
+                                </tbody>
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="row">異常值</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> 0 </td>
+                                        <th>筆</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title" style="color: midnightblue;">熱力圖 Heatmap</h3>
+                            <div class="row">
+                                <div class="col-md-8 col-lg-8" id="heatmap"></div>
+                                <div class="col-md-4 col-lg-4">
+                                    <table width="100%" class="mb-5">
+                                        <tr class="text-muted" style="line-height: 2.4">
+                                            <th>
+                                                <font size="5" style="color:midnightblue"><i class="fa fa-hand-o-right" aria-hidden="true"></i>正相關：0 < 相關係數 r < +1，兩變項彼此正向變化，數值一同增加或減少。</font>
+                                            </th>
+                                        </tr>
+                                        <br>
+                                        <tr class="text-muted" style="line-height: 2.4">
+                                            <th>
+                                                <font size="5" style="color:midnightblue"><i class="fa fa-hand-o-right" aria-hidden="true"></i>負相關：-1 < 相關係數 r < 0，兩變項彼此反向變化，一者數值增加(減少)時，另一者則減少(增加)。</font>
+                                            </th>
+                                        </tr>
+
+                                    </table>
+                                    <img src="~/plugins/images/corTable.png" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end-->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding: 5px;">
+                        <div class="white-box">
+                            <!-- Create a div where the graph will take place -->
+                            <h3 class="box-title" style="color: midnightblue;">Scatter Plot</h3>
+                            <label style="color: rgb(71, 82, 92);">選擇 X 軸: </Select></label>&nbsp;<select id="selectX" class="select"></select>
+                            <label style="color: rgb(71, 82, 92);">選擇 Y 軸: </Select></label>&nbsp;<select id="selectY" class="select"></select>
+                            <div id="scatterPlot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script src="~/Scripts/multi_line.js"></script>
+<script src="~/Scripts/heatmap.js"></script>
+<script src="~/Scripts/scatter.js"></script>
+<script>
+    multi("@ViewBag.prePath");
+    heatmap("@ViewBag.corrPath");
+    scatter("@ViewBag.prePath");
+</script>

@@ -1,0 +1,90 @@
+﻿@model FETrainingModel.Models.Projects
+@{
+    ViewBag.Title = "資料上傳";
+}
+
+<style>
+    table {
+        text-align: center;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background-color: #FFF68F;
+    }
+
+    tr:nth-child(even) {
+        background-color: #DDDDFF;
+    }
+</style>
+@if(ViewBag.output != null)
+{
+    <script>
+        alert("請確認第一欄必為日期且內容完整!");
+    </script>
+}
+@using (Html.BeginForm("ImportData", "Model", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container-fluid">
+        <div class="row bg-title">
+
+            <div class="container border shadow-lg  mb-5 bg-white mx-auto">
+                <div>
+                    <h2>上傳你的資料</h2>
+                    <label class="text-muted" style="font-size:15px;text-align:right">專案代碼：@Model.ProjectId</label>
+                </div>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <input type="file" name="FileUpload" id="files" class="form-control" style="padding:6px; height:unset"
+                               required accept=".csv" onchange="checkfile(this);" />
+                    </div>
+                    <div class="form-group">
+                        &nbsp;&nbsp;
+                        <button type="button" value="preview_file" name="action"
+                                class="btn-sm btn-outline-primary mx-3"
+                                style="font-weight: bold;border-radius: 10px;border-width:1.5px;"
+                                id="submit">
+                            預覽資料
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="white-box">
+                    <label class="text-muted" style="font-size:15px;text-align:right">Preview your file</label>
+                    <div style="float:right;">
+                        <button type="submit" value="submit_file" name="submit_file"
+                                class="btn-sm btn-outline-primary mx-3"
+                                style="font-weight: bold;border-radius: 10px;border-width:1.5px;"
+                                id="submit_file">
+                            送出資料
+                        </button>
+                        @Html.HiddenFor(m => m.ProjectId)
+                    </div>
+                    <div style="overflow:scroll;height:385px;" id="app" style="font-size:smaller"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript" language="javascript">
+    function checkfile(sender) {
+        // 可接受的附檔名
+        var validExts = new Array(".csv");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("檔案類型錯誤，可接受的副檔名有：" + validExts.toString());
+            sender.value = null;
+            return false;
+        }
+        else return true;
+    }
+</script>
+

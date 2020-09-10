@@ -1,0 +1,263 @@
+﻿@model FETrainingModel.ViewModels.ModelViewModel
+@{
+    ViewBag.Title = "調整參數";
+}
+
+<script src="~/Scripts/jquery.sumoselect.js" type="text/javascript"></script>
+<link href="~/Content/dropdownliststyle.css" rel="stylesheet" type="text/css" />
+<style>
+    .CaptionCont, .SumoSelect {
+        width: 500px;
+    }
+</style>
+@if (Model.preview == true)
+{
+    <script>
+        alert("須建立LSTM模型!");
+    </script>
+}
+@using (Html.BeginForm("DefineVariable", "Model", FormMethod.Post))
+{
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="container border shadow-lg  mb-5 bg-white mx-auto">
+                <div>
+                    <h2>調整參數</h2>
+                    <label class="text-muted" style="font-size:15px;text-align:right">專案代碼：@Model.ProjectId</label>
+                </div>
+                <div>
+                    <hr class="hor">
+                    </hr>
+                </div>
+                <div>
+                    <h2>選擇Y欄</h2>
+                </div>
+                <table width="100%" class="mb-9">
+                    @if (Model.model == "LSTM")
+                    {
+                        @Html.DropDownListFor(model => model.Selected,
+                                                new SelectList(Model.ColList,Model.Selected), new { @class= "ddlMultiSlectBox", id="dropdown", multiple = "multiple" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Selected,
+                                                new SelectList(Model.ColList,Model.Selected))
+                    }
+                    <br />
+                    <span style="color:red">@Html.ValidationMessageFor(model => model.Selected)</span>
+                </table>
+                <div>
+                    <hr class="hor">
+                    </hr>
+                </div>
+                @if (Model.model == "RF" || Model.model == "XGB")
+                {
+                    //可選是否自訂參數
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                        <label class="form-check-label" for="inlineRadio1">自訂參數</label>
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Auto</label>
+                    </div>
+                    //若自動參數
+                    <div id="personal">
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">定義樹的數量：(50~2000)</font>
+                                </th>
+                            </tr>
+                        </table>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th><font size="3">@Html.TextBoxFor(model => model.rf.n_estimators, new { @Value = 100, type = "number", min = "50", max = "2000" })</font></th>
+                            </tr>
+                        </table>
+                        <div>
+                            <hr class="hor">
+                            </hr>
+                        </div>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">定義樹的深度：(1~15)</font>
+                                </th>
+                            </tr>
+                        </table>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th><font size="3">@Html.TextBoxFor(model => model.rf.max_depth, new { @Value = 5, type = "number", min = "1", max = "15" })</font></th>
+                            </tr>
+                        </table>
+                    </div>
+                }
+                else if (Model.model == "LASSO")
+                {
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">定義迴歸敏感度：(0~1)</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextBoxFor(model => model.lasso.alpha, new { @Value = 0.5 })</font></th>
+                        </tr>
+                    </table>
+                    <div>
+                        <hr class="hor">
+                        </hr>
+                    </div>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">定義iteraion次數：</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextBoxFor(model => model.rf.max_depth, new { @Value = 1000 })</font></th>
+                        </tr>
+                    </table>
+                }
+                else if (Model.model == "LSTM")
+                {
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">定義Training Data長度：</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextBoxFor(model => model.lstm.trainging, new { @Value = 7 })</font></th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">定義Predict Data長度：</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextBoxFor(model => model.lstm.predict, new { @Value = 3 })</font></th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">定義epoch：</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextBoxFor(model => model.lstm.epoch, new { @Value = 20 })</font></th>
+                        </tr>
+                    </table>
+                    <div>
+                        <hr class="hor">
+                        </hr>
+                    </div>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">Units數：</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextBoxFor(model => model.lstm.units, new { @Value = 10 })</font></th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">Activation Function：</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        @Html.DropDownListFor(model => model.SelectedActivation, new SelectList(Model.activationList, Model.SelectedActivation))
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">Dropout：(0~0.5)</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextBoxFor(model => model.lstm.dropout, new { @Value = 0.2 })</font></th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><button type="button" onclick="addlayer()" class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;"><i class="fa fa-plus-circle" aria-hidden="true"></i> 加入</button></th>
+                            <th><button type="button" onclick="deletelayer()" class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;"><i class="fa fa-plus-circle" aria-hidden="true"></i> 清空</button></th>
+                        </tr>
+                    </table>
+
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">模型預覽：</font>
+                            </th>
+                        </tr>
+                    </table>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th><font size="3">@Html.TextAreaFor(model => model.lstm.model, new { @readonly = true, cols = "70", rows = "5" })</font></th>
+                        </tr>
+                    </table>
+                }
+                <div>
+                    <hr class="hor">
+                    </hr>
+                </div>
+                <button type="submit" value="preprocessing" name="action"
+                        class="btn btn-primary active btn-lg" style="width: max-content;"
+                        id="preprocessing">
+                    下一步
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function addlayer() {
+        var model_ = $("#lstm_model").val()
+        var model_string = "model.add(LSTM(units=" + $("#lstm_units").val() + ", activation=" + $("#SelectedActivation").val() + ", dropout=" + $("#lstm_dropout").val() + "));\n"
+        model_ += model_string
+        $("#lstm_model").val(model_)
+    }
+
+    function deletelayer() {
+        $("#lstm_model").val("")
+    }
+
+    $(function () {
+        //multi dropdown
+        window.asd = $('.ddlMultiSlectBox').SumoSelect({ csvDispCount: 3 }); //若選3項則不逐一列出欄位名稱
+
+        // radio btn選XGB, RF是否自訂參數
+        $("input[name='inlineRadioOptions']").click(function () {
+            if ($("[name='inlineRadioOptions']:checked").val() == "option2") {
+                $("#personal").css('display', 'none');
+                $("#rf_n_estimators").val(0); //若選auto rf_n_estimators值設0
+            }
+            else if ($("[name='inlineRadioOptions']:checked").val() == "option1") {
+                $("#personal").css('display', 'block');
+                $("#rf_n_estimators").val(100); //rf_n_estimators給預設值100
+            }
+        });
+    });
+</script>

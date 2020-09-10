@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="~/plugins/images/favicon.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Menu CSS -->
+    <link href="~/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- toast CSS -->
+    <link href="~/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <!-- morris CSS -->
+    <link href="~/plugins/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <!-- chartist CSS -->
+    <link href="~/plugins/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css"
+          rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Content/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="~/Content/colors/default.css" id="theme" rel="stylesheet">
+    <link href="~/Content/main.css" id="theme" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <style>
+        .axis .domain {
+            display: none;
+        }
+
+        body {
+            font-family: "微軟正黑體", Helvetica, sans-serif;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header" style="position: fixed;background:#1C86EE;font-family: '微軟正黑體';">
+                <div class="top-left-part">
+                    <!-- Logo -->
+                    <a class="logo" href="@(Url.Action("Index", "Home"))">
+                        <!-- Logo icon image, you can use font-icon also -->
+                        <b>
+                            <!--This is dark logo icon-->
+                            @*<img src="~/plugins/images/admin-logo.png" alt="home" class="dark-logo" />*@
+                            <!--This is light logo icon-->
+                            @*<img src="~/plugins/images/admin-logo-dark.png" alt="home" class="light-logo" />*@
+                        </b>
+                        <!-- Logo text image you can use text also -->
+                        <span class="hidden-xs">
+                            <!--This is dark logo text-->
+                            <img src="~/plugins/images/auo_logo.png" alt="home" class="dark-logo" />
+                            <!--This is light logo text-->
+                            @*<img src="~/plugins/images/auo.png" alt="home" class="light-logo" />*@
+                        </span>
+                    </a>
+                </div>
+                <!-- /Logo -->
+                <ul class="nav navbar-top-links navbar-left pull-left">
+                    <li>
+                        <a class="profile-pic" href="#"><b class="hidden-xs">@ViewBag.Title</b></a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li>
+                        <a class="nav-toggler open-close waves-effect waves-light hidden-md hidden-lg"
+                           href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+                    </li>
+                    <li>
+                        <a class="profile-pic" href="#"><b class="hidden-xs">@User.Identity.Name</b></a>
+                    </li>
+                    @if (User.Identity.Name != "")
+                    {
+                        <li>
+                            <a class="btn btn-link" style="color: aliceblue;" href="@(Url.Action("Logout", "Project"))"><i class="fa fa-sign-out" aria-hidden="true"></i> 登出</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="btn btn-link" style="color: aliceblue;" href="@(Url.Action("Login", "Project"))"><i class="fa fa-sign-in" aria-hidden="true"></i> 登入</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head" style="text-align:center">
+                    <img src="~/plugins/images/auo.png" alt="home" class="light-logo" />
+                    <!--<h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span
+                            class="hide-menu">AUO</span></h3>-->
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li style="padding: 70px 0 0;">
+                        <a href="@(Url.Action("Index", "Project"))" class="waves-effect"><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
+                    </li>
+                    @if (User.Identity.Name != "")
+                    {
+                        <li>
+                            <a href="@(Url.Action("ProjectList", "Project"))" class="waves-effect"><i class="fa fa-list" aria-hidden="true"></i> Project</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
+        <!-- /.container-fluid -->
+        <footer class="footer text-center"> © AUO | ver1.0 </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="~/Scripts/papaparse.js" charset="utf-8"></script>
+    <script src="~/Scripts/reading-csv-file-using-javascript.js" charset="utf-8"></script>
+    <script src="https://use.fontawesome.com/ab6359ef33.js"></script>
+</body>
+</html>

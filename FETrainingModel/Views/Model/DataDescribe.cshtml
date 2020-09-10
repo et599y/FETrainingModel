@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "資料分布";
+}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/makeTable.js"></script>
+<style>
+    table {
+        text-align: center;
+    }
+
+    th,
+    td {
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background-color: #FFF68F;
+    }
+
+    tr:nth-child(even) {
+        background-color: #DDDDFF;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="container border shadow-lg  mb-5 bg-white mx-auto">
+            <div>
+                <h2>資料分布</h2>
+                <label class="text-muted" style="font-size:15px;text-align:right">專案代碼：@ViewBag.ProjectId</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                @*<label class="text-muted" style="font-size:15px;text-align:right" id='selected'>Nothing Selected</label>*@
+                <div style="height:auto;" id="container"></div>
+                <div style="text-align:center;margin-top: 20px;">
+                    <a class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;" href="@(Url.Action("DataPreprocess", "Model"))">進入資料預處理</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    d3.json("@ViewBag.describePath", function (error, data) {
+        if (error) {
+            console.log("ERROR!");
+            throw error;
+        }
+        var table_plot = makeTable()
+            .datum(data)
+            .sortBy('col', true)
+        d3.select('#container').call(table_plot);
+
+        table_plot.on('select', function (data, on_off) {
+            if (on_off) {//if the data is highlighted
+                d3.select('#selected').text(
+                    'And it was the chosen one ' + data.col
+                );
+            }
+        });
+    });
+</script>
+

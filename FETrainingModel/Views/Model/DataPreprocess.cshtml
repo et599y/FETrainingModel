@@ -1,0 +1,241 @@
+﻿@model FETrainingModel.ViewModels.DataPreprocessViewModel
+@{
+    ViewBag.Title = "資料預處理";
+}
+<script src="~/Scripts/jquery.sumoselect.js" type="text/javascript"></script>
+<link href="~/Content/dropdownliststyle.css" rel="stylesheet" type="text/css" />
+<style>
+    .CaptionCont, .SumoSelect {
+        width: 500px;
+    }
+</style>
+@using (Html.BeginForm("DataPreProcess", "Model"))
+{
+    @Html.HiddenFor(model => model.ProjectId)
+    @Html.HiddenFor(model => model.mode)
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="container border shadow-lg  mb-5 bg-white mx-auto">
+                <div>
+                    <h2>資料前處理 </h2><label class="text-muted" style="font-size:15px;text-align:right">專案代碼：@Model.ProjectId</label>
+                </div>
+                <div>
+                    <hr class="hor">
+                    </hr>
+                </div>
+                <a class="btn btn-primary active btn-lg" style="width: max-content;" href="@(Url.Action("DataDescribe", "Model"))">查看資料分布</a> <br />
+                <label class="text-muted" style="font-size:15px;text-align:right;padding-top:10px;">資料前處理</label>
+                <table width="100%" class="mb-5">
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">選擇欲刪除欄位：</font>
+                            </th>
+                        </tr>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="3">
+                                        @Html.DropDownListFor(model => model.Selected,
+                                                new SelectList(Model.ColList,Model.Selected), new { @class= "ddlMultiSlectBox", id="dropdown", multiple = "multiple" })
+                                    </font>
+                            </tr>
+                        </table>
+                    </table>
+                    <div>
+                        <hr class="hor">
+                        </hr>
+                    </div>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">缺失值</font>
+                            </th>
+                        </tr>
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="3" style="color:steelblue;"> 共有 @Model.pre.isnull 個 缺失值(NULL)
+                            </th>
+                        </tr>
+                        <table width="50%" class="mb-8">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="4" style="color:darkblue"> [刪除]缺失值總筆大於 30% 的欄位
+                                </th>
+                                @*<th><font size="3">@Html.RadioButtonFor(model => model.drop, 1) 刪除</font></th>
+                        <th><font size="3">@Html.RadioButtonFor(model => model.drop, 0, new { @checked = true }) 保留</font></th>*@
+                            </tr>
+                        </table>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                                    <font size="3" style="color:darkblue">
+                                        @foreach (var item in Model.pre.DeleteCol)
+                                        {
+                                            @item <br>
+                                        }
+                                    </font>
+                            </tr>
+                        </table>
+                    </table>
+                    <div>
+                        <hr class="hor">
+                        </hr>
+                    </div>
+                    <table width="100%" class="mb-5">
+                        <tr class="text-muted" style="line-height: 2.4">
+                            <th>
+                                <font size="5">[刪除]無意義欄位(該欄所有值相同)</font>
+                            </th>
+                        </tr>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                                    <font size="3" style="color:darkblue">
+                                        @foreach (var item in Model.pre.SameCol)
+                                        {
+                                            @item <br>
+                                        }
+                                    </font>
+                            </tr>
+                        </table>
+                    </table>
+                    <div>
+                        <hr class="hor">
+                        </hr>
+                    </div>
+                    <table width="100%" class="mb-5">
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">異常值</font>
+                                </th>
+                            </tr>
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="3" style="color:steelblue;"> 共有 @Model.pre.abnormal 個異常值
+                                </th>
+                            </tr>
+                        </table>
+                        <table width="30%" class="mb-8">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="3" style="color:red;"> 是否刪除？
+                                </th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.abnormal, 1) 是</font></th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.abnormal, 0, new { @checked = true }) 否</font></th>
+                            </tr>
+                        </table>
+                        <div>
+                            <hr class="hor">
+                            </hr>
+                        </div>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">離群值</font>
+                                </th>
+                            </tr>
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="3" style="color:steelblue;"> 共有 @Model.pre.outlier 個離群值</font>
+                                </th>
+                            </tr>
+                        </table>
+                        <table width="30%" class="mb-8">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="3" style="color:red;"> 是否刪除？
+                                </th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.outlier, 1) 是</font></th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.outlier, 0, new { @checked = true }) 否</font></th>
+                            </tr>
+                        </table>
+                        <div>
+                            <hr class="hor">
+                            </hr>
+                        </div>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">選擇補值方式：</font>
+                                </th>
+                            </tr>
+                        </table>
+                        <table width="100%" class="mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th><font size="3">@Html.RadioButtonFor(model => model.fill, "ffill", new { @checked = true }) 補前一筆</font></th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.fill, "bfill") 補後一筆</font></th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.fill, "interp1d") 插補</font></th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.fill, "mean") 平均數</font></th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.fill, "median") 中位數</font></th>
+                                <th><font size="3">@Html.RadioButtonFor(model => model.fill, "most_frequent") 眾數</font></th>
+
+                            </tr>
+                        </table>
+                        <!---->
+                        <div>
+                            <hr class="hor">
+                            </hr>
+                        </div>
+                        <br>
+                        @if (Model.mode == "1")
+                        {
+                            <table width="100%" class="mb-5">
+                                <tr class="text-muted" style="line-height: 2.4">
+                                    <th>
+                                        <font size="5">資料分割</font>
+                                    </th>
+                                </tr>
+                            </table>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <font size="3" style="color:rgb(82, 87, 92)">Training Data : 用以訓練Model</font>
+                                    @Html.TextBoxFor(model => model.TrainVal, new { @Value = "7", @class = "form-control", @required = "required", type="number", min="5", max="9" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <font size="3" style="color:rgb(82, 87, 92)">Validation Data : 用來做Model selection</font>
+                                    @Html.TextBoxFor(model => model.ValidVal, new { @Value = "2", @class = "form-control", @required = "required", type = "number", min = "1", max = "5" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <font size="3" style="color:rgb(82, 87, 92)">Testing Data : 用以評估所選的Model實際性能</font>
+                                    @Html.TextBoxFor(model => model.TestVal, new { @Value = "1", @class = "form-control", @required = "required", type = "number", min = "0", max = "3" })
+                                </div>
+                            </div>
+                            <div>
+                                <hr class="hor">
+                                </hr>
+                            </div>
+                        }
+                        <button type="submit" value="preprocessing" name="action"
+                                class="btn btn-primary active btn-lg" style="width: max-content;"
+                                id="preprocessing">
+                            下一步
+                        </button>
+            </div>
+            <br>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        //multi dropdown
+        window.asd = $('.ddlMultiSlectBox').SumoSelect({ csvDispCount: 3 }); //若選3項則不逐一列出欄位名稱
+    });
+</script>
+
+@if(Model.mode == "1")
+{
+    <script>
+        //確認資料分割總和為10
+        $('form').submit(function () {
+            if ((parseInt($('#TrainVal').val()) + parseInt($('#ValidVal').val()) + parseInt($('#TestVal').val())) != 10) {
+                alert("資料分割總和須為10!")
+                return false; // return false to cancel form action
+            }
+        });
+    </script>
+}

@@ -1,0 +1,71 @@
+﻿@model FETrainingModel.ViewModels.ProjectViewModel
+@{
+    ViewBag.Title = "建立專案";
+}
+<style>
+    .validation{
+        color:red;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="container shadow-lg  mb-5 bg-white mx-auto">
+            <div>
+                <h2>建立專案</h2>
+            </div>
+            <div>
+                <hr class="hor">
+                </hr>
+            </div>
+            @using (Html.BeginForm("CreateProject", "Project"))
+            {
+                <form class="form  my-2 my-lg-0 " action="/create method=" POST">
+                    <div class="form-group col-md-6">
+                        <label style="color: darkslateblue;">專案名稱</label><span style="color:red"> *</span>
+                        @Html.TextBoxFor(model => model.Data.Name, new { @class = "form-control", id = "project_name" })
+                        @Html.ValidationMessageFor(model => model.Data.Name, "", new { @class = "validation" })
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label style="color: darkslateblue;">專案目標</label><span style="color:red"> *</span>
+                        @Html.TextAreaFor(model => model.Data.Goal, new { @class = "form-control", id = "project_goal", cols = "5", rows = "5" })
+                        @Html.ValidationMessageFor(model => model.Data.Goal, "", new { @class = "validation" })
+                        <br>
+                        <label style="color: darkslateblue;">專案現況描述</label>
+                        @Html.TextAreaFor(model => model.Data.Description, new { @class = "form-control mr-sm-2 mb-3", id = "project_status", cols = "5", rows = "5" })
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="color: darkslateblue;">使用目的</label><span style="color:red"> *</span>
+                        <table class="" style="width:100%;">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    @Html.RadioButtonFor(model => model.Data.Purpose, "尋找關鍵因子", new { @checked = true })
+                                    尋找關鍵因子<br>
+                                </th>
+                                <th>
+                                    @Html.RadioButtonFor(model => model.Data.Purpose, "預測迴歸趨勢")
+                                    預測迴歸趨勢<br>
+                                </th>
+                                <th>
+                                    @Html.RadioButtonFor(model => model.Data.Purpose, "時間序列分析")
+                                    時間序列分析<br>
+                                </th>
+                                @Html.ValidationMessageFor(model => model.Data.Purpose, "", new { @class = "validation" })
+                            </tr>
+                        </table>
+                        <div>
+                            <hr class="hor">
+                            </hr>
+                        </div>
+                        <button type="submit" value="add_project" name="action"
+                                class="btn btn-outline-primary mx-3"
+                                style="font-size: 16pt;font-weight: bold;border-radius: 15px;border-width:1.5px;"
+                                id="add_project">
+                            建立專案
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+﻿@model FETrainingModel.ViewModels.ModelViewModel
+@{
+    ViewBag.Title = "選擇模型";
+}
+@using (Html.BeginForm("ChooseModel", "Model"))
+{
+    if (Model.cantfill != null)
+    {
+        <p style="text-align:center;">*共 @Model.cantfill 個資料欄位無法補值*</p>
+    }
+    @Html.HiddenFor(model => model.mode)
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="container border shadow-lg  mb-5 bg-white mx-auto">
+                <div>
+                    <h2>選擇模型</h2>
+                    <label class="text-muted"
+                           style="font-size:15px;text-align:right">專案代碼：@Model.ProjectId</label>
+                    </div>
+                    <div>
+                        <hr class="hor">
+                        </hr>
+                    </div>
+                    @if (Model.mode == "1")
+                    {
+                        <table width="100%" class="lg-5 mb-5">
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">
+                                        @Html.RadioButtonFor(model => model.model, "XGB", new { @checked = true }) XGBoost
+                                    </font><br>
+                                    <font size="3">
+                                        XGBoost ( Extreme Gradient Boosting )，是一種Gradient Boosted
+                                        Tree(GBDT)，每一次保留原來的模型不變，並且加入一個新的函數至模型中，修正上一棵樹的錯誤，以提升整體的模型。
+                                    </font>
+                                </th>
+                            </tr>
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">
+                                        @Html.RadioButtonFor(model => model.model, "RF") 隨機森林
+                                    </font><br>
+                                    <font size="3">
+                                        用隨機的方式建立一個森林，森林裡面有很多的決策樹組成，隨機森林的每一棵決策樹之間是沒有關聯的。在得到森林之後，當有一個新的輸入樣本進入的時候，就讓森林中的每一棵決策樹分別進行一下判斷，看看這個樣本應該屬於哪一類（對於分類演算法），然後看看哪一類被選擇最多，就預測這個樣本為那一類。
+                                    </font>
+                                </th>
+                            </tr>
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">
+                                        @Html.RadioButtonFor(model => model.model, "LASSO") Lasso
+                                    </font><br>
+                                    <font size="3">
+                                        是另一種縮減方法，將回歸係數收縮在一定的區域內。LASSO的主要思想是構造一個一階懲罰函數獲得一個精鍊的模型, 通過最終確定一些變量的係數為0進行特徵篩選。
+                                    </font>
+                                </th>
+                            </tr>
+                            <tr class="text-muted" style="line-height: 2.4">
+                                <th>
+                                    <font size="5">
+                                        @Html.RadioButtonFor(model => model.model, "LSTM") LSTM
+                                    </font><br>
+                                    <font size="3">
+                                        LSTM(Long short-term memory)， 是一種特殊的RNN，兩者的區別在於普通的RNN單個迴圈結構內部只有一個狀態。而LSTM的單個迴圈結構(又稱為細胞)內部有四個狀態，LSTM主要改善了以前RNN的一些問題 (Ex: Memory的設計問題)。
+                                    </font>
+                                </th>
+                            </tr>
+                        </table>
+                    }
+                    else if (Model.mode == "2")
+                    {
+                        <table class="table dataTable table-hover table-responsive" style="width:100%;">
+                            <thead>
+                                <tr style="line-height: 2.4;background-color:#edf1f5;">
+                                    <th>選擇 </th>
+                                    <th>模型名稱 </th>
+                                    <th>MAE </th>
+                                    <th>MSE </th>
+                                    <th>RMSE </th>
+                                    <th>MAPE </th>
+                                    <th>R2 </th>
+                                    <th>建立時間 </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!Model.ModelList.Count.Equals(0))
+                                {
+                                    foreach (var item in Model.ModelList)
+                                    {
+                                <tr style="color:blue">
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;text-align:center;">
+                                            @Html.RadioButtonFor(model => model.model, item.Name, new { @checked = true
+                                            })<br>
+                                        </div>
+                                    </td>
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                            @item.Name<br>
+                                        </div>
+                                    </td>
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                            @item.MAE<br>
+                                        </div>
+                                    </td>
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                            @item.MSE<br>
+                                        </div>
+                                    </td>
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                            @item.RMSE<br>
+                                        </div>
+                                    </td>
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                            @item.MAPE<br>
+                                        </div>
+                                    </td>
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                            @item.R2<br>
+                                        </div>
+                                    </td>
+                                    <td class="td-1">
+                                        <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                            @Convert.ToDateTime(item.CreateTime).ToString("yyyy/MM/dd HH:mm:ss")<br>
+                                        </div>
+                                    </td>
+                                </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" style="text-align:center;">
+                                            查無資料
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                    <div>
+                        <hr class="hor">
+                        </hr>
+                    </div>
+                    <button type="submit" value="preprocessing" name="action" class="btn btn-primary active btn-lg"
+                            style="width: max-content;" id="preprocessing">
+                        下一步
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+

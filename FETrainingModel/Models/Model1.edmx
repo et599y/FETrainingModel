@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FEModelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="ProjectId" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MAE" Type="float" />
+          <Property Name="MSE" Type="float" />
+          <Property Name="RMSE" Type="float" />
+          <Property Name="MAPE" Type="float" />
+          <Property Name="R2" Type="float" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="y" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProjectId" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="40" />
+          <Property Name="Goal" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="Purpose" Type="nvarchar" MaxLength="15" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="ModifyTime" Type="datetime" />
+          <Property Name="Process" Type="tinyint" />
+          <Property Name="TrainVal" Type="tinyint" />
+          <Property Name="ValidVal" Type="tinyint" />
+          <Property Name="TestVal" Type="tinyint" />
+          <Property Name="Model" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="Site" Type="varchar" MaxLength="10" />
+          <Property Name="Sort" Type="int" />
+        </EntityType>
+        <EntityContainer Name="FEModelModelStoreContainer">
+          <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FEModelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FEModelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Model" EntityType="FEModelModel.Model" />
+          <EntitySet Name="Users" EntityType="FEModelModel.Users" />
+          <EntitySet Name="Projects" EntityType="FEModelModel.Projects" />
+        </EntityContainer>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="ProjectId" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MAE" Type="Double" />
+          <Property Name="MSE" Type="Double" />
+          <Property Name="RMSE" Type="Double" />
+          <Property Name="MAPE" Type="Double" />
+          <Property Name="R2" Type="Double" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="y" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Site" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Sort" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="ProjectId" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Goal" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Purpose" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+          <Property Name="Process" Type="Byte" />
+          <Property Name="TrainVal" Type="Byte" />
+          <Property Name="ValidVal" Type="Byte" />
+          <Property Name="TestVal" Type="Byte" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FEModelModelStoreContainer" CdmEntityContainer="FEModelEntities">
+          <EntitySetMapping Name="Model">
+            <EntityTypeMapping TypeName="FEModelModel.Model">
+              <MappingFragment StoreEntitySet="Model">
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="R2" ColumnName="R2" />
+                <ScalarProperty Name="MAPE" ColumnName="MAPE" />
+                <ScalarProperty Name="RMSE" ColumnName="RMSE" />
+                <ScalarProperty Name="MSE" ColumnName="MSE" />
+                <ScalarProperty Name="MAE" ColumnName="MAE" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FEModelModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="Site" ColumnName="Site" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="FEModelModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="TestVal" ColumnName="TestVal" />
+                <ScalarProperty Name="ValidVal" ColumnName="ValidVal" />
+                <ScalarProperty Name="TrainVal" ColumnName="TrainVal" />
+                <ScalarProperty Name="Process" ColumnName="Process" />
+                <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Goal" ColumnName="Goal" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

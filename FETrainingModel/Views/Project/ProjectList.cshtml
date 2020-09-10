@@ -1,0 +1,202 @@
+﻿@model FETrainingModel.ViewModels.ProjectViewModel
+@{
+    ViewBag.Title = "專案列表";
+}
+@if (Model.compare == false)
+{
+    <script>
+        alert("預測資料與訓練資料欄位不相符!請重新上傳!!");
+    </script>
+}
+    
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div style="float:left;">
+                <a type="button" class="btn btn-outline-primary btn-lg" style="background-color:#2894FF; color:white;margin-right:15px;outline-color:darkblue" href="@(Url.Action("CreateProject", "Project"))">建立專案</a>
+            </div>
+            <div style="float:right;">
+                <div style="float:right">
+                    @using (Html.BeginForm("ProjectList", "Project"))
+                    {
+
+                        @Html.TextBoxFor(model => model.Search, new { @class = "searchbar", placeholder = "Enter keywords", style = "font-size:15px;" })
+                        <button type="submit" value="search" name="action" class="btn-default btn-xs"
+                                style="font-weight: bold;border-radius: 10px;border-width:1.5px;"
+                                id="add_project">
+                            Search
+                        </button>
+
+                    }
+                </div>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 white-box">
+            <div class="">
+                <table class="table dataTable table-hover table-responsive" style="width:100%;">
+                    <thead>
+                        <tr style="line-height: 2.4;background-color:#edf1f5;">
+                            <th>專案代碼 </th>
+                            <th>專案名稱 </th>
+                            <th>技術分類 </th>
+                            <th style="width:20%;">進度 </th>
+                            <th>更新時間</th>
+                            <th>模型 </th>
+                            <th>EDA </th>
+                            <th>預測 </th>
+                            <th>編輯 </th>
+                            <th>刪除 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.ProjectList.Count.Equals(0))
+                        {
+                            foreach (var item in Model.ProjectList)
+                            {
+                        <tr style="color:blue">
+                            <td class="td-1">
+                                <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                    @item.ProjectId<br>
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                    @item.Name<br>
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                    @item.Purpose<br>
+                                </div>
+                            </td>
+                            <td class="td-1" style="padding-right:2%;">
+                                <div class="progress" style="height: 15px;line-height: 100%;margin:auto">
+                                    @if (item.Process == 0)
+                                    {
+                                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                    }
+                                    else if (item.Process == 1)
+                                    {
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                    }
+                                    else if (item.Process == 2)
+                                    {
+                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                    }
+                                    else if (item.Process == 3)
+                                    {
+                                        <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">75%</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>
+                                    }
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="color:rgb(28, 73, 118);line-height: 30px;">
+                                    @Convert.ToDateTime(item.ModifyTime).ToString("yyyy/MM/dd HH:mm:ss")<br>
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="line-height: 30px;">
+                                    <a class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;" href="@(Url.Action("ImportData", "Model", new { Id = item.ProjectId, mode = 1 }, null))"><i class="fa fa-sellsy"></i></a><br>
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="line-height: 30px;">
+                                    @if (item.Process < 2)
+                                    {
+                                        <a class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;" disabled><i class="fa fa-area-chart" aria-hidden="true"></i></a><br>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;" href="@(Url.Action("DataExplore", "Model", new { Id = item.ProjectId }, null))"><i class="fa fa-area-chart" aria-hidden="true"></i></a><br>
+                                    }
+
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="line-height: 30px;">
+                                    @if (item.Process != 4)
+                                    {
+                                        <a class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;" disabled><i class="fa fa-line-chart" aria-hidden="true"></i></a><br>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;" href="@(Url.Action("ImportData", "Model", new { Id = item.ProjectId, mode = 2 }, null))"><i class="fa fa-line-chart" aria-hidden="true"></i></a><br>
+                                    }
+
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="line-height: 30px;">
+                                    <a class="btn btn-info" style="background-color:#337ab7;margin:2px;border:none;" href="@(Url.Action("EditProject", "Project", new { Id = item.ProjectId }, null))"><i class="fa fa-pencil-square-o"></i></a><br>
+                                </div>
+                            </td>
+                            <td class="td-1">
+                                <div style="line-height: 30px;">
+                                    <a class="btn btn-info confirm" style="background-color:#C13D21;margin:2px;border:none;" href="@Url.Action("DeleteProject", "Project", new { Id = item.ProjectId })" onclick = "return confirm('確認刪除這筆資料?');"><i class="fa fa-trash"></i></a>
+                                    <br>
+                                </div>
+                            </td>
+                        </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="10" style="text-align:center;">
+                                    查無資料
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+                <div>
+                    <hr class="hor"></hr>
+                </div>
+                <center>
+                    <nav role="navigation">
+                        <ul class="cd-pagination no-space">
+
+                            @if (Model.Paging.NowPage > 1)
+                            {
+                                @Html.ActionLink("Prev", "ProjectList", new { Page = Model.Paging.NowPage - 1, Search = Model.Search }, new { @class = "button btn btn-info btn2 btn-lg" })
+
+                            }
+                            else
+                            {
+                                <a class="disabled button btn btn-info btn2 btn-lg">Prev</a>
+                            }
+                            @if (Model.Paging.NowPage < Model.Paging.MaxPage)
+                            {
+                                @Html.ActionLink("Next", "ProjectList", new { Page = Model.Paging.NowPage + 1, Search = Model.Search }, new { @class = "button btn btn-info btn2 btn-lg" })
+                            }
+                            else
+                            {
+                                <a class="disabled button btn btn-info btn2 btn-lg">Next</a>
+                            }
+
+                        </ul>
+                    </nav>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //confirm delete
+    function deleteProject(id) {
+        console.log(id)
+        var r = confirm("確認刪除這筆資料?");
+        if (r == true) {
+            window.location.href = "DeleteProject?Id=" + id;
+        }
+    }
+</script>
