@@ -1,6 +1,6 @@
 # FETrainingModel
 
-> Makesure that "ProjectFiles" folder has 7 sites folder. This is fixed.
+> Make sure that "ProjectFiles" folder has 7 sites folder. This is fixed.
 
 > It's lack of the requirement.txt. All python files are in the "Python" folder.
 
