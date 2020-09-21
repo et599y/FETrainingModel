@@ -412,7 +412,7 @@ namespace FETrainingModel.Controllers
             string path = MapPath;
             ModelViewModel modelView = new ModelViewModel();
             modelView.ModelList = modelservice.GetAllModelList(ProjectId).ToList();
-
+            
             var file2 = Directory.GetFiles(filePath + user.Site + "/" + ProjectId + "/", "key_value.json", SearchOption.AllDirectories).Count();
 
             ViewBag.modelPath = MapPath;

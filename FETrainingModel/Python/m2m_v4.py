@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[18]:
 
 
 import tensorflow as tf
@@ -213,9 +209,6 @@ for i in range(r):
 score.to_csv(path+'score.csv')
 
 
-# In[28]:
-
-
 # import matplotlib.pyplot as plt
 # plt.figure(figsize=(20,5))
 # if len(col) == 1:
@@ -229,44 +222,3 @@ score.to_csv(path+'score.csv')
 #     plt.title(col[i])
 #     plt.plot(ls[i]['y_train'],alpha=0.7)
 #     plt.plot(ls[i]['predict_train'],alpha=0.7)
-
-
-# # In[16]:
-
-
-# import matplotlib.pyplot as plt
-# plt.figure(figsize=(20,5))
-# if len(col) == 1:
-#   plt.title(col[0])
-#   plt.plot(ls[0]['y_val'],alpha=0.7)
-#   plt.plot(ls[0]['predict_val'],alpha=0.7)
-# elif len(col) != 1:
-#   for i in range(len(col)):
-#     plt.figure(figsize=(20,5))
-#     plt.title(col[i])
-#     plt.plot(ls[i]['y_val'],alpha=0.7)
-#     plt.plot(ls[i]['predict_val'],alpha=0.7)
-
-
-# # In[17]:
-
-
-# import matplotlib.pyplot as plt
-# plt.figure(figsize=(20,5))
-# if len(col) == 1:
-#   plt.title(col[0])
-#   plt.plot(ls[0]['y_test'],alpha=0.7)
-#   plt.plot(ls[0]['predict_test'],alpha=0.7)
-# elif len(col) != 1:
-#   for i in range(len(col)):
-#     plt.figure(figsize=(20,5))
-#     plt.title(col[i])
-#     plt.plot(ls[i]['y_train'],alpha=0.7)
-#     plt.plot(ls[i]['predict_train'],alpha=0.7)
-
-
-# In[ ]:
-
-
-
-
